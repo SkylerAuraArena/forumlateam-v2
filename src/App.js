@@ -12,53 +12,53 @@ import RequireAuth from './components/parts/access/RequireAuth';
 
 function App() {
   console.log("%cApp.js", 'background: black; color: white;')
-  const [ modalState, modalDispatch ] = useModalContext()
+  const [modalState, modalDispatch] = useModalContext()
 
   useEffect(() => {
-      console.log("%cApp.js -- UE", 'background: black; color: white;')
-      const root = document.getElementsByTagName('html')[0];
-      const newYPosition = 0-window.scrollY
-      const backdrop = modalState.modalChatOpen || modalState.modalContactOpen ? document.getElementById("modalBackdrop") : null
-      if(modalState.modalChatOpen || modalState.modalContactOpen){
-        backdrop.style.setProperty('top', window.scrollY + "px")
-        root.setAttribute( 'class', 'scrollLock' )
-        root.style.setProperty('top', `${newYPosition}px`);
+    console.log("%cApp.js -- UE", 'background: black; color: white;')
+    const root = document.getElementsByTagName('html')[0];
+    const newYPosition = 0 - window.scrollY
+    const backdrop = modalState.modalChatOpen || modalState.modalContactOpen ? document.getElementById("modalBackdrop") : null
+    if (modalState.modalChatOpen || modalState.modalContactOpen) {
+      backdrop.style.setProperty('top', window.scrollY + "px")
+      root.setAttribute('class', 'scrollLock')
+      root.style.setProperty('top', `${newYPosition}px`);
+      modalDispatch({
+        modalChatCss: ["backdrop", modalState.cssModalChat],
+        modalContactCss: ["backdrop", modalState.cssModalContact],
+        yPosition: newYPosition
+      })
+      setTimeout(() => {
         modalDispatch({
-          modalChatCss: ["backdrop",modalState.cssModalChat],
-          modalContactCss: ["backdrop",modalState.cssModalContact],
-          yPosition: newYPosition
+          modalChatCss: ["backdrop", modalState.cssModalChatDisplay],
+          modalContactCss: ["backdrop", modalState.cssModalContactDisplay],
         })
-        setTimeout(() => {
-          modalDispatch({
-            modalChatCss: ["backdrop", modalState.cssModalChatDisplay],
-            modalContactCss: ["backdrop", modalState.cssModalContactDisplay],
-          })
-        }, 100);
-      } else {
-        root.removeAttribute( 'class', 'scrollLock')
-        window.scrollTo(0, Math.abs(modalState.yPosition));
+      }, 100);
+    } else {
+      root.removeAttribute('class', 'scrollLock')
+      window.scrollTo(0, Math.abs(modalState.yPosition));
+      modalDispatch({
+        modalChatCss: ["backdrop", modalState.cssModalChatHidden],
+        modalContactCss: ["backdrop", modalState.cssModalContactHidden],
+        yPosition: newYPosition
+      })
+      setTimeout(() => {
         modalDispatch({
-          modalChatCss: ["backdrop", modalState.cssModalChatHidden],
-          modalContactCss: ["backdrop",modalState.cssModalContactHidden],
-          yPosition: newYPosition
+          modalChatCss: ["backdrop backdrop-hidden", modalState.cssModalContactHidden],
+          modalContactCss: ["backdrop backdrop-hidden", modalState.cssModalChatHidden],
         })
-        setTimeout(() => {
-          modalDispatch({
-            modalChatCss: ["backdrop backdrop-hidden",modalState.cssModalContactHidden],
-            modalContactCss: ["backdrop backdrop-hidden", modalState.cssModalChatHidden],
-          })
-        }, 290);
-      }
+      }, 290);
+    }
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [modalState.modalContactOpen, modalState.modalChatOpen])
 
-  const handleCloseModal = useCallback(()=>{
+  const handleCloseModal = useCallback(() => {
     console.log("%cApp.js -- handleCloseModal", 'background: black; color: white;')
     modalDispatch({
-      modalContactOpen : false,
-      modalChatOpen : false,
+      modalContactOpen: false,
+      modalChatOpen: false,
     })
-  },[])
+  }, [])
 
   return (
     <div className="box-border">
@@ -67,15 +67,16 @@ function App() {
       <Routes>
         <Route path="/" element={<ConnectionContent />}>
           <Route path="ForumLaTeam" element={<ConnectionContent />} />
+          <Route path="forumlateam-v2" element={<ConnectionContent />} />
         </Route>
         <Route
-            path="/forum"
-            element={
-              <RequireAuth>
-                <Forum />
-              </RequireAuth>
-            }
-          />
+          path="/forum"
+          element={
+            <RequireAuth>
+              <Forum />
+            </RequireAuth>
+          }
+        />
         <Route path="/*" element={<Error404 />} />
       </Routes>
       <Footer />
