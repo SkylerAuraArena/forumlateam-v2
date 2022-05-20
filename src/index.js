@@ -1,5 +1,5 @@
 import React from 'react';
-import * as ReactDOM from "react-dom";
+import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from "react-router-dom";
 import './index.css';
 import App from './App';
@@ -11,7 +11,8 @@ import FirebaseConnectionProvider from './components/context/FirebaseConnectionC
 
 console.log("%cIndex.js", 'background: black; color: white;')
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthContextProvider>
@@ -26,6 +27,5 @@ ReactDOM.render(
         </ForumContextProvider>
       </AuthContextProvider>
     </BrowserRouter>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );
