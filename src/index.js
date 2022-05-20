@@ -1,17 +1,31 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import * as ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import ForumContextProvider from "./components/context/ForumContext";
+import MainContextProvider from "./components/context/MainContext";
+import AuthContextProvider from './components/context/AuthContext';
+import ModalContextProvider from './components/context/ModalContext';
+import FirebaseConnectionProvider from './components/context/FirebaseConnectionContext';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+console.log("%cIndex.js", 'background: black; color: white;')
+
+ReactDOM.render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <BrowserRouter>
+      <AuthContextProvider>
+        <ForumContextProvider>
+          <MainContextProvider>
+            <ModalContextProvider>
+              <FirebaseConnectionProvider>
+                <App />
+              </FirebaseConnectionProvider>
+            </ModalContextProvider>
+          </MainContextProvider>
+        </ForumContextProvider>
+      </AuthContextProvider>
+    </BrowserRouter>
+  </React.StrictMode>,
+  document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
