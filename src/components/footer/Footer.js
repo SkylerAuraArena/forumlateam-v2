@@ -1,5 +1,5 @@
 import { memo } from "react"
-import Recaptcha from "../import/Recaptcha"
+// import Recaptcha from "../import/Recaptcha"
 import FooterElement from "./FooterElement"
 
 const Footer = () => {
@@ -7,11 +7,11 @@ const Footer = () => {
 
     //Ici, une div est ajoutée afin de créer un effet de "lever de rideau sur le footer".
 
-    return(
+    return (
         <>
             <footer className="footer fixed bottom-0 left-0 right-0 w-auto flex justify-center items-center bg-blackColor text-whiteColor">
-                <FooterElement className="lowerElement"/>
-                <Recaptcha></Recaptcha>
+                <FooterElement className="lowerElement" />
+                {/* <Recaptcha></Recaptcha> */}
             </footer>
             <div className="uselessDiv footer bg-whiteColorBg"></div>
         </>
